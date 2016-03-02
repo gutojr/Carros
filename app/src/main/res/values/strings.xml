@@ -1,0 +1,49 @@
+<resources>
+
+    <!-- A -->
+    <string name="about_dialog_title">Livro Android</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">Sobre</string>
+    <string name="all_rights_reserved">Livro Android - Todos os direitos reservados</string>
+    <string name="app_name">Carros</string>
+
+    <!-- C -->
+    <string name="carros">Carros</string>
+    <string name="configuracoes">Configuracoes</string>
+    <string name="classicos">Clássicos</string>
+
+    <!-- E -->
+    <string name="esportivos">Esportivos</string>
+
+    <!-- H -->
+    <string name="hello_world">Hello World</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- L -->
+    <string name="luxo">Luxo</string>
+
+    <!-- N -->
+    <string name="nav_drawer_username">Gustavo Alves</string>
+    <string name="nav_drawer_email">gustavo_alves@outlook.com</string>
+
+    <!-- O -->
+    <string name="ok">OK</string>
+
+    <!-- S -->
+    <string name="site_livro">Site do livro</string>
+    <!-- Sobre -->
+    <string name="about_dialog_text">
+    <![CDATA[
+        <b>Aplicativo dos Carros 2015</b><br>
+        Versao %s<br><br>
+        <a href="http://www.livroandroid.com.br">http://livroandroid.com.br</a><br><br>
+        <a href="http://www.facebook.com/ricardolecheta">http://facebook.com/ricardolecheta</a><br><br>
+        <a href="https://plus.google.com/+RicardoLecheta">https://plus.google.com/+RicardoLecheta</a>
+    ]]>
+    </string>
+
+    <!-- V -->
+    <string name="vazio" />
+    <string name="title_activity_carro">CarroActivity</string>
+
+</resources>

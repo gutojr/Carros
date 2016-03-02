@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material colors -->
+    <color name="color_primary">#3F51B5</color>
+    <color name="color_primary_dark">#303F9F</color>
+    <color name="color_accent">#FF4081</color>
+    <color name="color_control_highlight">#C5CAE9</color>
+
+    <!-- Others -->
+    <color name="transparent">#0000</color>
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="gray">#EEE</color>
+    <color name="refresh_progress_1">#C5CAE9</color>
+
+</resources>

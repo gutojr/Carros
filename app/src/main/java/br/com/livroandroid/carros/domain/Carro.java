@@ -16,6 +16,7 @@ public class Carro implements Serializable {
     public String urlVideo;
     public String latitude;
     public String longitude;
+    public boolean selected;
 
     @Override
     public String toString() {

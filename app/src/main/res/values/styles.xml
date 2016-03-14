@@ -7,6 +7,9 @@
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="colorControlHighlight">@color/color_control_highlight</item>
+
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
     </style>
 
     <!-- Nav Drawer theme. -->

@@ -1,11 +1,11 @@
 package br.com.livroandroid.carros.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +17,14 @@ import android.widget.ListAdapter;
 import java.util.List;
 
 import br.com.livroandroid.carros.R;
-import br.com.livroandroid.carros.activity.BaseActivity;
 import br.com.livroandroid.carros.adapter.NavDrawerMenuAdapter;
 import br.com.livroandroid.carros.adapter.NavDrawerMenuItem;
 import br.com.livroandroid.carros.fragments.AboutDialog;
-import br.com.livroandroid.carros.fragments.CarrosFragment;
 import br.com.livroandroid.carros.fragments.CarrosTabFragment;
+import br.com.livroandroid.carros.fragments.PrefsFragment;
 import br.com.livroandroid.carros.fragments.SiteLivroFragment;
 import livroandroid.lib.fragment.NavigationDrawerFragment;
+import livroandroid.lib.utils.AndroidUtils;
 
 public class MainActivity extends BaseActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private static final String TAG = "livroandroid";
@@ -86,7 +86,12 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         } else if (position == 1) {
             replaceFragment(new SiteLivroFragment());
         } else if (position == 2) {
-            toast("Configurações");
+            getSupportFragmentManager().beginTransaction()
+                    .remove(getSupportFragmentManager().findFragmentById(R.id.nav_drawer_container))
+                    .commit();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.nav_drawer_container, new PrefsFragment(), "TAG")
+                    .commit();
         } else {
             Log.e(TAG, "Item de menu inválido");
         }

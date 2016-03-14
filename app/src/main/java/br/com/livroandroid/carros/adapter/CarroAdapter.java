@@ -1,6 +1,7 @@
 package br.com.livroandroid.carros.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,7 +42,6 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroAdapter.CarrosViewHo
     public CarrosViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Infla a view do layout
         View view = LayoutInflater.from(context).inflate(R.layout.adapter_carro, viewGroup, false);
-
         CardView cardView = (CardView) view.findViewById(R.id.card_view);
 
         // Cria o ViewHolder
@@ -69,7 +69,7 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroAdapter.CarrosViewHo
             }
         });
 
-        // Click
+        // Click normal
         if (carroOnClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,10 +78,26 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroAdapter.CarrosViewHo
                 }
             });
         }
+        // Click longo
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                carroOnClickListener.onLongClickCarro(holder.itemView, position);
+                return true;
+            }
+        });
+        // Pinta o fundo se a linha estiver selecionada
+        int corFundo = ContextCompat.getColor(context, c.selected ? R.color.color_primary : R.color.white);
+        holder.cardView.setCardBackgroundColor(corFundo);
+        // A cor do texto depende da cor de fundo
+        int corFonte = ContextCompat.getColor(context, c.selected ? R.color.white : R.color.color_primary);
+        holder.tNome.setTextColor(corFonte);
     }
 
     public interface CarroOnClickListener {
         public void onClickCarro(View view, int idx);
+        public void onLongClickCarro(View view, int idx);
     }
 
     // ViewHolder com as views
@@ -89,6 +105,7 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroAdapter.CarrosViewHo
         public TextView tNome;
         ImageView img;
         ProgressBar progress;
+        CardView cardView;
 
         public CarrosViewHolder(View view) {
             super(view);
@@ -96,6 +113,7 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroAdapter.CarrosViewHo
             tNome = (TextView) view.findViewById(R.id.text);
             img = (ImageView) view.findViewById(R.id.img);
             progress = (ProgressBar) view.findViewById(R.id.progressImg);
+            cardView = (CardView) view.findViewById(R.id.card_view);
         }
     }
 }

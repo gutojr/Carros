@@ -14,6 +14,8 @@
 
     <!-- E -->
     <string name="esportivos">Esportivos</string>
+    <string name="edit">Editar</string>
+    <string name="error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
 
     <!-- H -->
     <string name="hello_world">Hello World</string>
@@ -22,6 +24,9 @@
     <!-- L -->
     <string name="luxo">Luxo</string>
 
+    <!-- M -->
+    <string name="maps">Mapas</string>
+
     <!-- N -->
     <string name="nav_drawer_username">Gustavo Alves</string>
     <string name="nav_drawer_email">gustavo_alves@outlook.com</string>
@@ -29,8 +34,11 @@
     <!-- O -->
     <string name="ok">OK</string>
 
+    <!-- R -->
+    <string name="remove">Remover</string>
     <!-- S -->
     <string name="site_livro">Site do livro</string>
+    <string name="share">Share</string>
     <!-- Sobre -->
     <string name="about_dialog_text">
     <![CDATA[
@@ -45,5 +53,6 @@
     <!-- V -->
     <string name="vazio" />
     <string name="title_activity_carro">CarroActivity</string>
+    <string name="video">Video</string>
 
 </resources>

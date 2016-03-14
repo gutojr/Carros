@@ -9,31 +9,72 @@ import org.json.JSONObject;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.livroandroid.carros.R;
+import br.com.livroandroid.carros.fragments.CarrosFragment;
 import livroandroid.lib.utils.FileUtils;
+import livroandroid.lib.utils.HttpHelper;
+import livroandroid.lib.utils.IOUtils;
 import livroandroid.lib.utils.XMLUtils;
 
 /**
  * Created by Gustavo on 28/02/2016.
  */
 public class CarroService {
-    private static final String URL = "http://www.livroiphone.com.br/carros/carros_{tipo}.json";
+    private static final String URL = "http://www.livroandroid.com.br/livro/carros/carros_{tipo}.json";
     private static final boolean LOG_ON = false;
     private static final String TAG = "CarroService";
 
-    public static List<Carro> getCarros(Context context, String tipo) {
-        try {
-            String json = readFileJSON(context, tipo); // String xml = readFileXML(context, tipo);
-            List<Carro> carros = parserJSON(context, json);// List<Carro> carros = parserXML(context, xml);
-            return carros;
-        } catch (Exception e) {
-            Log.e(TAG, "Erro ao ler os carros: " + e.getMessage(), e);
-            return null;
+    public static List<Carro> getCarros(Context context, String tipo, boolean refresh) throws IOException {
+        //List<Carro> carros = getCarrosFromArquivo(context, tipo);
+        List<Carro> carros = null;
+        boolean buscaNoBancoDeDados = !refresh;
+        if (buscaNoBancoDeDados) {
+            carros = getCarrosFromBanco(context, tipo);
+            if (carros != null && carros.size() > 0) {
+                return carros;
+            }
         }
+        carros = getCarrosFromWebService(context, tipo);
+        return carros;
+    }
+
+    public static List<Carro> getCarrosFromBanco(Context context, String tipo) throws IOException {
+        CarroDB carroDB = new CarroDB(context);
+        try {
+            List<Carro> carros = carroDB.findAllByTipo(tipo);
+            Log.d(TAG, "Retornando " + carros.size() + " carros [" + tipo + "] do banco");
+            return carros;
+        } finally {
+            carroDB.close();
+        }
+    }
+
+    public static List<Carro> getCarrosFromArquivo(Context context, String tipo) throws IOException {
+        String fileName = String.format("carros_%s.json", tipo);
+        Log.d(TAG, "Abrindo arquivo: " + fileName);
+        String json = FileUtils.readFile(context, fileName, "UTF-8");
+        if (json == null) {
+            Log.d(TAG, "Arquivo " + fileName + " não encontrado.");
+            return null;
+        } else {
+            List<Carro> carros = parserJSON(context, json);
+            Log.d(TAG, "Carros lidos do arquivo " + fileName + ".");
+            return carros;
+        }
+    }
+
+    public static List<Carro> getCarrosFromWebService(Context context, String tipo) throws IOException {
+        String url = URL.replace("{tipo}", tipo);
+        String json = new HttpHelper().doGet(url);
+        //salvarArquivoNaMemoriaInterna(context, url, json);
+        List<Carro> carros = parserJSON(context, json);
+        salvarCarros(context, tipo, carros);
+        return carros;
     }
 
     // Faz a leitura do arquivo que esta na pasta /res/raw
@@ -105,5 +146,26 @@ public class CarroService {
             throw new IOException(e.getMessage(), e);
         }
         return carros;
+    }
+
+    private static void salvarArquivoNaMemoriaInterna(Context context, String url, String json) {
+        String fileName = url.substring(url.lastIndexOf("/")+1);
+        File file = FileUtils.getFile(context, fileName);
+        IOUtils.writeString(file, json);
+        Log.d(TAG, "Arquivo salvo: " + file);
+    }
+
+    private static void salvarCarros(Context context, String tipo, List<Carro> carros) {
+        CarroDB carroDB = new CarroDB(context);
+        try {
+            carroDB.deleteCarrosByTipo(tipo);
+            for (Carro c : carros) {
+                c.tipo = tipo;
+                Log.d(TAG, "Salvando o carro " + c.nome);
+                carroDB.save(c);
+            }
+        } finally {
+            carroDB.close();
+        }
     }
 }
